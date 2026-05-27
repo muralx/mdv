@@ -1,7 +1,7 @@
 # mdv — terminal markdown viewer
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/muralx/mdv.svg)](https://pkg.go.dev/github.com/muralx/mdv)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 `mdv` is a small, full-screen terminal viewer for Markdown files. It pages
 large documents, supports mouse-wheel and vim-style scrolling, and renders
@@ -69,4 +69,4 @@ no `COLORTERM`, where auto-detection can block on terminal queries.
 
 ## License
 
-[Apache 2.0](LICENSE)
+[MIT](LICENSE)
