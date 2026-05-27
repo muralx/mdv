@@ -1,52 +1,72 @@
-# mdv
+# mdv — terminal markdown viewer
 
-A full-screen terminal markdown viewer built with [mate](https://github.com/muralx/mate).
+[![Go Reference](https://pkg.go.dev/badge/github.com/muralx/mdv.svg)](https://pkg.go.dev/github.com/muralx/mdv)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+
+`mdv` is a small, full-screen terminal viewer for Markdown files. It pages
+large documents, supports mouse-wheel and vim-style scrolling, and renders
+inline links as clickable OSC 8 hyperlinks in compatible terminals.
+
+Built on [mate](https://github.com/muralx/mate), a Go TUI component framework.
+
+## Install
+
+```sh
+go install github.com/muralx/mdv@latest
+```
+
+Or build from source:
+
+```sh
+git clone https://github.com/muralx/mdv
+cd mdv
+go build .
+```
 
 ## Usage
 
-```
-mdv <file.md>
+```sh
+mdv path/to/file.md
 ```
 
 ## Controls
 
-| Key | Action |
-| --- | --- |
-| `↑` / `k` | Scroll up one line |
-| `↓` / `j` | Scroll down one line |
-| `PgUp` | Scroll up one page |
-| `PgDn` | Scroll down one page |
-| `Home` | Jump to top |
-| `End` | Jump to bottom |
-| `Esc` / `q` | Quit |
+| Key            | Action                  |
+| -------------- | ----------------------- |
+| `↑` / `k`      | Scroll up one line      |
+| `↓` / `j`      | Scroll down one line    |
+| `PgUp`         | Scroll up one page      |
+| `PgDn`         | Scroll down one page    |
+| `Home`         | Jump to top             |
+| `End`          | Jump to bottom          |
+| `Esc` / `q`    | Quit                    |
+| `Shift`+drag   | Select and copy text    |
 
-Mouse wheel scrolling is also supported.
+Mouse-wheel scrolling is also supported.
 
 ## Rendering
 
-mdv renders the following markdown elements:
-
-- **Headings** — `#`, `##`, `###` rendered in cyan bold
+- **Headings** — `#`, `##`, `###`
 - **Bold** — `**text**`
-- **Inline code** — `` `code` `` rendered in orange
-- **Fenced code blocks** — rendered in grey
+- **Inline code** — `` `code` ``
+- **Fenced code blocks**
+- **Links** — `[text](url)` rendered as clickable OSC 8 hyperlinks
 - **Tables** — passed through as-is
 - **Horizontal rules** — `---`, `***`, `___`
 
-## Building
+## Configuration
 
-```
-go build .
-```
+`MDV_COLOR` selects the color profile when terminal auto-detection isn't
+appropriate — for example, inside `tmux`/`screen` with `TERM=screen-*` and
+no `COLORTERM`, where auto-detection can block on terminal queries.
 
-Or install to `$GOPATH/bin`:
+| Value                | Profile     |
+| -------------------- | ----------- |
+| _(unset)_            | True color  |
+| `ansi256`            | 256 colors  |
+| `ansi`               | 16 colors   |
+| `off` / `none` / `ascii` | No color  |
 
-```
-go install .
-```
+## License
 
-## Dependencies
-
-- [mate](https://github.com/muralx/mate) — TUI component framework
-- [bubbletea](https://github.com/charmbracelet/bubbletea) — terminal app framework
-- [lipgloss](https://github.com/charmbracelet/lipgloss) — terminal styling
+[Apache 2.0](LICENSE)

@@ -21,8 +21,6 @@ import (
 
 	"github.com/muralx/mate/widget"
 	"github.com/muralx/mate/window"
-
-	"mdv/mdrender"
 )
 
 func main() {
@@ -52,51 +50,27 @@ func main() {
 		os.Exit(1)
 	}
 
-	renderer := mdrender.New()
-	md := string(data)
-
 	win, text := buildWindow(filepath.Base(path))
-	text.SetContent(renderer.Render(md, 0))
+	text.SetMarkdown(string(data))
 	app := window.NewApp(win)
-	v := &viewer{App: app, md: md, text: text, renderer: renderer}
-	p := tea.NewProgram(v, tea.WithAltScreen(), tea.WithMouseCellMotion())
+	p := tea.NewProgram(app, tea.WithAltScreen(), tea.WithMouseCellMotion())
 	if _, err := p.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, "mdv: %v\n", err)
 		os.Exit(1)
 	}
 }
 
-// viewer wraps window.App so we can re-render markdown when the terminal
-// resizes — passing the new width to mdrender lets it suppress OSC 8 on
-// lines that would otherwise be too long and trigger mtui's broken wrap path.
-type viewer struct {
-	*window.App
-	md       string
-	text     *widget.ScrollableText
-	renderer *mdrender.MarkdownRenderer
-	width    int
-}
-
-func (v *viewer) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	if sm, ok := msg.(tea.WindowSizeMsg); ok && sm.Width != v.width {
-		v.width = sm.Width
-		v.text.SetContent(v.renderer.Render(v.md, sm.Width))
-	}
-	_, cmd := v.App.Update(msg)
-	return v, cmd
-}
-
-func buildWindow(title string) (*window.MainWindow, *widget.ScrollableText) {
+func buildWindow(title string) (*window.MainWindow, *widget.MarkdownTextArea) {
 	win := window.NewWindow("mdv")
 
-	text := widget.NewScrollableText("content", widget.DefaultScrollableTextStyles())
+	text := widget.NewMarkdownTextArea("content", widget.DefaultMarkdownTextAreaStyles())
 
 	statusStyle := lipgloss.NewStyle().
 		Background(lipgloss.Color("#1a1a2e")).
 		Foreground(lipgloss.Color("#555577")).
 		Padding(0, 1)
 	status := widget.NewText("status",
-		title+" | ↑↓/jk: scroll | PgUp/PgDn: page | Home/End: top/bottom | Esc: quit",
+		title+" | ↑↓/jk: scroll | PgUp/PgDn: page | Home/End: top/bottom | Esc: quit | Shift to select and copy text",
 		statusStyle)
 	status.SetPreferredHeight(1)
 
