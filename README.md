@@ -1,5 +1,7 @@
 # mdv — terminal markdown viewer
 
+[![CI](https://github.com/muralx/mdv/actions/workflows/ci.yml/badge.svg)](https://github.com/muralx/mdv/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/muralx/mdv)](https://github.com/muralx/mdv/releases/latest)
 [![Go Reference](https://pkg.go.dev/badge/github.com/muralx/mdv.svg)](https://pkg.go.dev/github.com/muralx/mdv)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -11,11 +13,19 @@ Built on [mate](https://github.com/muralx/mate), a Go TUI component framework.
 
 ## Install
 
+### Prebuilt binaries
+
+Grab the archive for your OS/arch from the
+[latest release](https://github.com/muralx/mdv/releases/latest), extract,
+and place `mdv` somewhere on your `PATH`.
+
+### With Go
+
 ```sh
 go install github.com/muralx/mdv@latest
 ```
 
-Or build from source:
+### From source
 
 ```sh
 git clone https://github.com/muralx/mdv
